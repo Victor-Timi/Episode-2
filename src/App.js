@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import Axios from 'axios';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [value, setValue] = useState("");
+  const [display, setDisplay] = useState("")
+
+  const handleChange = () => {
+    Axios.get(`https://excuser-three.vercel.app/v1/excuse/${value}/`).then((res) => {
+      setDisplay(res.data[0].excuse)
+    })
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>GENERATE AN EXCUSE</h1>
+      <button onClick={() => handleChange(setValue("party"))}>Party</button>
+      <button onClick={() => handleChange(setValue("family"))}>Family</button>
+      <button onClick={() => handleChange(setValue("office"))}>Office</button>
+      <h4>{display}</h4>
     </div>
   );
 }
